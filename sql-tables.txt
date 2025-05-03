@@ -1,0 +1,108 @@
+CREATE TABLE customer (
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE customer_address (
+    address_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT NOT NULL,
+    address_line VARCHAR(255) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(100),
+    postal_code VARCHAR(20),
+    country VARCHAR(100),
+    is_primary BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+);
+
+CREATE TABLE restaurant (
+    restaurant_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    owner_name VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE delivery_driver (
+    driver_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    vehicle_type VARCHAR(50) NOT NULL,
+    status ENUM('ACTIVE', 'INACTIVE') DEFAULT 'ACTIVE'
+);
+
+CREATE TABLE meal (
+    meal_id INT PRIMARY KEY AUTO_INCREMENT,
+    restaurant_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    type VARCHAR(50),  -- e.g., VEG, NON-VEG, VEGAN
+    calories INT,
+    FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id)
+);
+
+CREATE TABLE meal_plan (
+    plan_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    price DECIMAL(10, 2),
+    duration_days INT NOT NULL,
+    meals_per_day INT, -- Can be overridden by the custom plan
+    is_custom BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+);
+
+CREATE TABLE meal_plan_meals (
+    plan_id INT,
+    meal_id INT,
+    PRIMARY KEY (plan_id, meal_id),
+    FOREIGN KEY (plan_id) REFERENCES meal_plan(plan_id),
+    FOREIGN KEY (meal_id) REFERENCES meal(meal_id)
+);
+
+CREATE TABLE meal_plan_times (
+    plan_time_id INT PRIMARY KEY AUTO_INCREMENT,
+    plan_id INT NOT NULL,
+    time_slot TIME NOT NULL,
+    meals_count INT DEFAULT 1,
+    FOREIGN KEY (plan_id) REFERENCES meal_plan(plan_id)
+);
+
+CREATE TABLE subscription (
+    subscription_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT NOT NULL,
+    plan_id INT NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    status ENUM('ACTIVE', 'PAUSED', 'CANCELLED', 'EXPIRED') DEFAULT 'ACTIVE',
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+    FOREIGN KEY (plan_id) REFERENCES meal_plan(plan_id)
+);
+
+CREATE TABLE delivery_schedule (
+    schedule_id INT PRIMARY KEY AUTO_INCREMENT,
+    subscription_id INT NOT NULL,
+    delivery_date DATE NOT NULL,
+    delivery_time TIME NOT NULL,
+    meal_id INT, -- Optional, if known ahead of time
+    driver_id INT,  -- Delivery driver for the meal
+    status ENUM('PENDING', 'DELIVERED', 'SKIPPED') DEFAULT 'PENDING',
+    FOREIGN KEY (subscription_id) REFERENCES subscription(subscription_id),
+    FOREIGN KEY (meal_id) REFERENCES meal(meal_id),
+    FOREIGN KEY (driver_id) REFERENCES delivery_driver(driver_id)
+);
+
+CREATE TABLE payment (
+    payment_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT NOT NULL,
+    subscription_id INT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    payment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('SUCCESS', 'FAILED', 'PENDING') DEFAULT 'PENDING',
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+    FOREIGN KEY (subscription_id) REFERENCES subscription(subscription_id)
+);
