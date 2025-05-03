@@ -45,4 +45,28 @@ public class CustomerService {
         }
         return "Customer not found.";
     }
+
+    public String customerLogin(String email, String password){
+        Customer validCustomer = customerRepository.findCustomerByCustomerEmail(email);
+        System.out.println("Checking login for email: " + email);
+        System.out.println("Found customer: " + validCustomer);
+        if(validCustomer != null){
+            if(password.equals(validCustomer.getCustomerPassword())){
+                return "Login successful.";
+            } else {
+                return "Invalid password.";
+            }
+        }
+
+        return "Customer not found.";
+    }
+
+    public String customerRegistration(Customer customer){
+        if(customerRepository.findCustomerByCustomerEmail(customer.getCustomerEmail()) != null){
+            return "Email already in use";
+        }
+
+        customerRepository.save(customer);
+        return "Customer registered successfully.";
+    }
 }
