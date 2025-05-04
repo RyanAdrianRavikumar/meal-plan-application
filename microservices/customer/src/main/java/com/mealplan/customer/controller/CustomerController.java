@@ -2,6 +2,7 @@ package com.mealplan.customer.controller;
 
 import com.mealplan.customer.dto.LoginRequest;
 import com.mealplan.customer.entity.Customer;
+import com.mealplan.customer.entity.CustomerAddress;
 import com.mealplan.customer.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +38,15 @@ public class CustomerController {
     @PostMapping(path = "/customers/register")
     public String customerRegistration(@RequestBody Customer customer){
         return customerService.customerRegistration(customer);
+    }
+
+    @PostMapping(path = "/customers/address")
+    public String setCustomerAddressing(@RequestBody CustomerAddress customerAddress){
+        return customerService.setCustomerAddressing(customerAddress);
+    }
+
+    @PutMapping(path = "/customers/{customerId}/address")
+    public String updateAddressByCustomerId(@PathVariable int customerId, @RequestBody CustomerAddress customerAddress){
+        return customerService.updateAddressByCustomerId(customerId, customerAddress);
     }
 }

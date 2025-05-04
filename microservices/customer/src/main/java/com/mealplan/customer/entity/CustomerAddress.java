@@ -10,7 +10,7 @@ public class CustomerAddress {
     private int addressId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     @Column(name = "address_line", nullable = false)

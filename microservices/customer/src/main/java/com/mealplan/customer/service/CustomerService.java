@@ -1,6 +1,8 @@
 package com.mealplan.customer.service;
 
 import com.mealplan.customer.entity.Customer;
+import com.mealplan.customer.entity.CustomerAddress;
+import com.mealplan.customer.repository.CustomerAddressRepository;
 import com.mealplan.customer.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,9 @@ public class CustomerService {
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    CustomerAddressRepository customerAddressRepository;
 
     public Customer getCustomerById(int id){
         Optional<Customer> customer = customerRepository.findById(id);
@@ -68,5 +73,38 @@ public class CustomerService {
 
         customerRepository.save(customer);
         return "Customer registered successfully.";
+    }
+
+    //saves customer's address
+    public String setCustomerAddressing(CustomerAddress customerAddress){
+        Optional<Customer> customer = customerRepository.findById(customerAddress.getCustomer().getCustomerId());
+
+        if(customer.isPresent()){
+            customerAddress.setCustomer(customer.get());
+            customerAddressRepository.save(customerAddress);
+            return "Customer address details saved.";
+        } else {
+            return "Customer not found.";
+        }
+    }
+
+    public String updateAddressByCustomerId(int customerId, CustomerAddress newAddressData){
+        Optional<CustomerAddress> existingAddress = customerAddressRepository.findByCustomer_CustomerId(customerId);
+        Optional<Customer> customer = customerRepository.findById(customerId);
+
+        if(existingAddress.isPresent() && customer.isPresent()){
+            CustomerAddress customerAddress = existingAddress.get();
+            customerAddress.setAddressLine(newAddressData.getAddressLine());
+            customerAddress.setCity(newAddressData.getCity());
+            customerAddress.setState(newAddressData.getState());
+            customerAddress.setPostalCode(newAddressData.getPostalCode());
+            customerAddress.setCountry(newAddressData.getCountry());
+            customerAddress.setPrimary(newAddressData.isPrimary());
+
+            customerAddressRepository.save(customerAddress);
+            return "Customer address details updated.";
+        } else {
+            return "Customer or address not found";
+        }
     }
 }
