@@ -68,7 +68,7 @@ public class CustomerService {
 
     public String customerRegistration(Customer customer){
         if(customerRepository.findCustomerByCustomerEmail(customer.getCustomerEmail()) != null){
-            return "Email already in use";
+            return "Email already in use.";
         }
 
         customerRepository.save(customer);

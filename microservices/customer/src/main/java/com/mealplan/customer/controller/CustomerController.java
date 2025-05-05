@@ -50,8 +50,16 @@ public class CustomerController {
     }
 
     @PostMapping(path = "/customers/register")
-    public String customerRegistration(@RequestBody Customer customer){
-        return customerService.customerRegistration(customer);
+    public ResponseEntity<String> customerRegistration(@RequestBody Customer customer){
+        String result = customerService.customerRegistration(customer);
+
+        if(result.equals("Customer registered successfully.")){
+            return ResponseEntity.ok(result);
+        } else if(result.equals("Email already in use.")){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
+        }
     }
 
     @PostMapping(path = "/customers/address")
