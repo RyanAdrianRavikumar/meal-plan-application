@@ -28,8 +28,7 @@ public class CustomerAddress {
     @Column(name = "country")
     private String country;
 
-    @Column(name = "is_primary")
-    private boolean isPrimary;
+
 
     public int getAddressId() {
         return addressId;
@@ -85,13 +84,5 @@ public class CustomerAddress {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public boolean isPrimary() {
-        return isPrimary;
-    }
-
-    public void setPrimary(boolean primary) {
-        isPrimary = primary;
     }
 }
