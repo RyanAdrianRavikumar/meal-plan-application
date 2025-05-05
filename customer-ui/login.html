@@ -133,7 +133,8 @@
             .then(function(response) {
             return response.text().then(function(text) {
                 if (response.status === 200) {
-                    alert(text);  
+                    alert(text);
+                    window.location.href = 'addressForm.html';  
                 } else if (response.status === 409) {
                     alert("Unauthorized: " + text);
                 } else {
