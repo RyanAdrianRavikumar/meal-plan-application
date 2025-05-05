@@ -26,11 +26,12 @@ body {
     width: 850px;
     min-height: 550px;
     background-color: #fffbe6;
-    border-radius: 20px;
+    border-radius: 32px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
     margin: 20px;
     overflow: hidden;
     display: flex;
+    flex-direction: row-reverse;
     flex-wrap: wrap;
 }
 
@@ -139,6 +140,7 @@ form {
     padding: 40px;
     text-align: center;
     flex-direction: column;
+    border-radius: 30px;
 }
 
 .toggle-panel h1 {
@@ -166,7 +168,7 @@ form {
 }
 
 /* Responsive styles */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
     .container {
         flex-direction: column;
         width: 95%;
@@ -182,6 +184,10 @@ form {
 
     .container h1 {
         font-size: 30px;
+    }
+
+    .toggle-panel.toggle-left i{
+        font-size: 50px;
     }
 }
 
@@ -202,4 +208,9 @@ form {
     .btn {
         font-size: 14px;
     }
+
+    .toggle-panel.toggle-left i{
+        font-size: 20px;
+    }
+
 }
