@@ -108,6 +108,15 @@ form{
     text-decoration: none;
 }
 
+.forgot-link a{
+    text-decoration: none;
+    color: #333;
+}
+
+.forgot-link a:hover{
+    text-decoration: underline;
+}
+
 .btn{
     width: 100%;
     height: 48px;

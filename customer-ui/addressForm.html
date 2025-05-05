@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Plan - Address Form Page</title>
+    <link rel="stylesheet" href="addressForm-styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+        <div class="container">
+            <div class="form-box address">
+                <form id="address-form">
+                    <h1>Address Form</h1>
+                    <div class="input-box">
+                        <textarea name="address" placeholder="Address" required></textarea>
+                        <i class='bx bx-home'></i>
+                    </div>
+                    <div class ="input-box">
+                        <input type="text" name="city" placeholder="City" required />
+                        <i class='bx bxs-city' ></i>
+                    </div>
+                    <div class ="input-box">
+                        <input type="text" name="state" placeholder="State" required />
+                        <i class='bx bxs-bank' ></i>
+                    </div>
+                    <div class ="input-box">
+                        <input type="text" name="state" placeholder="State" required />
+                        <i class='bx bxs-lock-alt' ></i>
+                    </div>
+                    <div class ="input-box">
+                        <input type="text" name="postal-code" placeholder="Postal Code" required />
+                        <i class='bx bx-directions' ></i>
+                    </div>
+                    <div class ="input-box">
+                    <select name="country" required>
+                        <option value="">Select Your Country</option>
+                        <option value="srilanka">Sri Lanka</option>
+                    </select>
+                    <i class='bx bxs-chevron-down'></i>
+                    </div>
+                    <div class ="input-box"></divclass>
+                        <select name="is-primary" required>
+                            <option value="">Is Address Primary</option>
+                            <option value="yes">Yes</option>
+                            <option value="yes">No</option>
+                        </select>
+                        <i class='bx bxs-chevron-down'></i>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn">Save Address</button>
+                    </div>
+                </form>
+            </div>
+    
+            
+                <div class="toggle-box">
+                <div class="toggle-panel toggle-left">
+                    <h1>Thank For Signing Up!</h1>
+                    <p>Please enter address details.</p>
+                    <i class='bx bx-home' ></i>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
