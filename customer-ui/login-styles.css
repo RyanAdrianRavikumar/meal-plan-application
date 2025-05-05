@@ -253,3 +253,18 @@ form{
         font-size: 30px;
     }
 }
+
+@media screen and (max-width: 380px){
+    .form-box{
+        padding: 10px;
+        
+    }
+    
+    .form-box h1{
+        font-size: 23px;
+    }
+
+    .toggle-panel h1{
+        font-size: 30px;
+    }
+}
