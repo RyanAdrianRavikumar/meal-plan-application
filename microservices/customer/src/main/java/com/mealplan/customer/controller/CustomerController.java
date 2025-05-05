@@ -5,6 +5,8 @@ import com.mealplan.customer.entity.Customer;
 import com.mealplan.customer.entity.CustomerAddress;
 import com.mealplan.customer.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,10 +31,22 @@ public class CustomerController {
     }
 
     @PostMapping(path = "/customers/login")
-    public String customerLogin(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<String> customerLogin(@RequestBody LoginRequest loginRequest){
+        //log received credentials for debugging
         System.out.println("Received email: " + loginRequest.getCustomerEmail());
         System.out.println("Received password: " + loginRequest.getCustomerPassword());
-        return customerService.customerLogin(loginRequest.getCustomerEmail(), loginRequest.getCustomerPassword());
+
+        String result = customerService.customerLogin(loginRequest.getCustomerEmail(), loginRequest.getCustomerPassword());
+
+        if(result.equals("Login successful.")){
+            return ResponseEntity.ok(result);
+        } else if(result.equals("Invalid password.")){
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        } else if(result.equals("Customer not found.")){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
+        }
     }
 
     @PostMapping(path = "/customers/register")
