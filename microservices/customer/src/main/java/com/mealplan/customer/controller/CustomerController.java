@@ -71,4 +71,10 @@ public class CustomerController {
     public String updateAddressByCustomerId(@PathVariable int customerId, @RequestBody CustomerAddress customerAddress){
         return customerService.updateAddressByCustomerId(customerId, customerAddress);
     }
+
+    @GetMapping(path = "/customers/email")
+    public ResponseEntity<Customer> getCustomerByEmail(@RequestParam String email){
+        Customer customer = customerService.getCustomerByEmail(email);
+        return ResponseEntity.ok(customer);
+    }
 }

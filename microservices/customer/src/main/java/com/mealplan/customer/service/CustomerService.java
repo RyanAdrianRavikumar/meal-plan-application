@@ -99,12 +99,21 @@ public class CustomerService {
             customerAddress.setState(newAddressData.getState());
             customerAddress.setPostalCode(newAddressData.getPostalCode());
             customerAddress.setCountry(newAddressData.getCountry());
-            customerAddress.setPrimary(newAddressData.isPrimary());
 
             customerAddressRepository.save(customerAddress);
             return "Customer address details updated.";
         } else {
             return "Customer or address not found";
+        }
+    }
+
+    public Customer getCustomerByEmail(String email){
+        Customer customer = customerRepository.findCustomerByCustomerEmail(email);
+
+        if(customer != null){
+            return customer;
+        } else {
+            return null;
         }
     }
 }
