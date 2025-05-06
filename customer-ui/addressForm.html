@@ -13,7 +13,7 @@
                 <form id="address-form">
                     <h1>Address Form</h1>
                     <div class="input-box">
-                        <textarea name="address" placeholder="Address Line" required></textarea>
+                        <textarea name="addressLine" placeholder="Address Line" required></textarea>
                         <i class='bx bx-home'></i>
                     </div>
                     <div class ="input-box">
@@ -48,13 +48,61 @@
                 </div>
             </div>
         </div>
+
         <script>
             const addressForm = document.getElementById('address-form');
-            addressForm.addEventListener('submit', function(event){
+            addressForm.addEventListener('submit', function(event) {
                 event.preventDefault();
 
-                const 
+            const email = localStorage.getItem('customerEmail');
+
+            fetch(`http://localhost:8080/customers/email?email=${encodeURIComponent(email)}`)
+            .then(function(response) {
+                return response.json();
             })
-        </script>
+            .then(function(data) {
+                const customer_id = data.customerId;
+
+                const address_line = addressForm.elements['addressLine'].value;
+                const customerCity = addressForm.elements['city'].value;
+                const customerState = addressForm.elements['state'].value;
+                const customerPostalCode = addressForm.elements['postal-code'].value;
+                const customerCountry = addressForm.elements['country'].value;
+
+                const addressData = {
+                    customer: {
+                        customerId: customer_id,
+                    },
+                    addressLine: address_line,
+                    city: customerCity,
+                    state: customerState,
+                    postalCode: customerPostalCode,
+                    country: customerCountry,
+                };
+
+                return fetch('http://localhost:8080/customers/address', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(addressData)
+                });
+            })
+            .then(function(response) {
+                return response.text().then(function(text) {
+                    if (response.ok) {
+                        alert('Address saved successfully!');
+                    } else {
+                        alert('Error: ' + text);
+                    }
+                });
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
+                alert('Something went wrong.');
+            });
+        });
+
+    </script>
 </body>
 </html>

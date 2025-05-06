@@ -107,6 +107,7 @@
         });
     });   
     </script>
+    
     <script>
         const formRegister = document.getElementById('registration-form');
         formRegister.addEventListener('submit', function(event){
@@ -123,6 +124,7 @@
                 customerPhone: phone,
                 customerPassword: password
             };
+            
             fetch('http://localhost:8080/customers/register', {
                 method: 'POST',
                 headers: {
@@ -134,6 +136,7 @@
             return response.text().then(function(text) {
                 if (response.status === 200) {
                     alert(text);
+                    localStorage.setItem('customerEmail', email);
                     window.location.href = 'addressForm.html';  
                 } else if (response.status === 409) {
                     alert("Unauthorized: " + text);
