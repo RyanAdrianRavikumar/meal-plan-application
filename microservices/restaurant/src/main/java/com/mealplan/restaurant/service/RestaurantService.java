@@ -25,4 +25,13 @@ public class RestaurantService {
         }
         return null;
     }
+
+    public String deleteRestaurantById(int id){
+        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+        if(restaurant.isPresent()){
+            restaurantRepository.deleteById(id);
+            return "Restaurant Successfully Deleted!";
+        }
+        return "Failed To Delete Restaurant.";
+    }
 }
