@@ -42,8 +42,7 @@ CREATE TABLE meal (
     name VARCHAR(100) NOT NULL,
     description TEXT,
     type VARCHAR(50),  -- e.g., VEG, NON-VEG, VEGAN
-    calories INT,
-    FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id)
+    calories INT
 );
 
 CREATE TABLE meal_plan (
@@ -53,8 +52,7 @@ CREATE TABLE meal_plan (
     price DECIMAL(10, 2),
     duration_days INT NOT NULL,
     meals_per_day INT, -- Can be overridden by the custom plan
-    is_custom BOOLEAN DEFAULT TRUE,
-    FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+    is_custom BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE meal_plan_meals (
