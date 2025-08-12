@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DeliveryDriverRepository extends JpaRepository<DeliveryDriver, Integer> {
+    DeliveryDriver findDeliveryDriverByEmail(String email);
 }
