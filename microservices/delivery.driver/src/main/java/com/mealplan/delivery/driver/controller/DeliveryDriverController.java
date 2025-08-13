@@ -3,9 +3,7 @@ package com.mealplan.delivery.driver.controller;
 import com.mealplan.delivery.driver.entity.DeliveryDriver;
 import com.mealplan.delivery.driver.service.DeliveryDriverService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,13 +18,23 @@ public class DeliveryDriverController {
         return deliveryDriverService.getAllDeliveryDrivers();
     }
 
-    @GetMapping(path = "/drivers")
-    public String registerDriver(DeliveryDriver deliveryDriver){
+    @PostMapping(path = "/drivers")
+    public String registerDriver(@RequestBody DeliveryDriver deliveryDriver){
         return deliveryDriverService.registerDriver(deliveryDriver);
     }
 
     @GetMapping(path = "/drivers/{id}")
+    public DeliveryDriver getDeliveryDriverById(@PathVariable int id){
+        return deliveryDriverService.getDeliveryDriverById(id);
+    }
+
+    @DeleteMapping(path = "/drivers/{id}")
     public String deleteDriverById(@PathVariable int id){
         return deliveryDriverService.deleteDriverById(id);
+    }
+
+    @PutMapping(path = "/drivers/{id}")
+    public String updateDeliveryDriver(@PathVariable int id, @RequestBody DeliveryDriver updatedDeliveryDriver){
+        return deliveryDriverService.updateDeliveryDriver(id, updatedDeliveryDriver);
     }
 }

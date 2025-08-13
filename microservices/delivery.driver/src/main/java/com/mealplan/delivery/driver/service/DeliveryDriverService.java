@@ -27,6 +27,16 @@ public class DeliveryDriverService {
         return "Delivery driver successfully registered!";
     }
 
+    public DeliveryDriver getDeliveryDriverById(int id){
+        Optional<DeliveryDriver> deliveryDriverOptional = deliveryDriverRepository.findById(id);
+        if(deliveryDriverOptional.isPresent()){
+            DeliveryDriver deliveryDriver = deliveryDriverOptional.get();
+            return deliveryDriver;
+        } else {
+            return null;
+        }
+    }
+
     public String deleteDriverById(int id){
         Optional<DeliveryDriver> deliveryDriverOptional = deliveryDriverRepository.findById(id);
         if(deliveryDriverOptional.isPresent()){
@@ -34,5 +44,24 @@ public class DeliveryDriverService {
             return "Delivery driver successfully deleted!";
         }
         return "Failed to delivery driver.";
+    }
+
+    public String updateDeliveryDriver(int id, DeliveryDriver updatedDeliveryDriver){
+        Optional<DeliveryDriver> existingDeliveryDriver = deliveryDriverRepository.findById(id);
+
+        if(existingDeliveryDriver.isPresent()){
+            DeliveryDriver existingDriver = existingDeliveryDriver.get();
+
+            existingDriver.setName(updatedDeliveryDriver.getName());
+            existingDriver.setEmail(updatedDeliveryDriver.getEmail());
+            existingDriver.setPhone(updatedDeliveryDriver.getPhone());
+            existingDriver.setVehicleType(updatedDeliveryDriver.getVehicleType());
+            existingDriver.setAvailability(updatedDeliveryDriver.getAvailability());
+
+            deliveryDriverRepository.save(existingDriver);
+            return "Delivery driver successfully updated!";
+        } else{
+            return "Delivery driver not found.";
+        }
     }
 }
