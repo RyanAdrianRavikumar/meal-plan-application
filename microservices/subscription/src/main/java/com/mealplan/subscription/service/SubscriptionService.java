@@ -27,4 +27,35 @@ public class SubscriptionService {
         }
         return null;
     }
+
+    public String deleteSubscriptionById(int id){
+        Optional<Subscription> optionalSubscription = subscriptionRepository.findById(id);
+
+        if(optionalSubscription.isPresent()){
+            subscriptionRepository.deleteById(id);
+            return "Subscription successfully deleted.";
+        }
+        return "Failed to delete subscription.";
+    }
+
+    public String updateSubscriptionById(int id, Subscription updatedSubscription){
+        Optional<Subscription> optionalSubscription = subscriptionRepository.findById(id);
+
+        if(optionalSubscription.isPresent()){
+            Subscription existiingSubscription = optionalSubscription.get();
+            existiingSubscription.setCustomerId(updatedSubscription.getCustomerId());
+            existiingSubscription.setPlanId(updatedSubscription.getPlanId());
+            existiingSubscription.setStartDate(updatedSubscription.getStartDate());
+            existiingSubscription.setEndDate(updatedSubscription.getEndDate());
+            existiingSubscription.setStatus(updatedSubscription.getStatus());
+
+            subscriptionRepository.save(existiingSubscription);
+            return "Subscription updated successfully.";
+        }
+        return "Could not find subscription.";
+    }
+
+    public Subscription createSubscription(Subscription subscription){
+        return subscriptionRepository.save(subscription);
+    }
 }
