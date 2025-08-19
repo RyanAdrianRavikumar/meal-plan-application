@@ -33,6 +33,19 @@ public class Restaurant {
     @Column(name = "image")
     private Blob image;
 
+    public Restaurant() {
+        //JPA constructor
+    }
+
+    public Restaurant(String name, String ownerName, String phone, String email, String password, Blob image){
+        this.name = name;
+        this.ownerName = ownerName;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+        this.image = image;
+    }
+
     public int getId() {
         return id;
     }

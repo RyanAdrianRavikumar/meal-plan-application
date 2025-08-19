@@ -35,6 +35,20 @@ public class DeliveryDriver {
     @Column(name = "availability")
     private String availability;
 
+    public DeliveryDriver(){
+        //JPA constructor
+    }
+
+    public DeliveryDriver(String name, String email, String password, String phone, String address, String vehicleType, String availability){
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.address = address;
+        this.vehicleType = vehicleType;
+        this.availability = availability;
+    }
+
     public int getDeliveryDriverId() {
         return deliveryDriverId;
     }
